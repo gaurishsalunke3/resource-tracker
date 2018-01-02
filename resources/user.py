@@ -4,6 +4,16 @@ from models.user import UserModel
 class UserRegister(Resource):
 
     parser = reqparse.RequestParser()
+    parser.add_argument('first_name',
+        type=str,
+        required=True,
+        help='This field cannot be left blank'
+    )
+    parser.add_argument('last_name',
+        type=str,
+        required=True,
+        help='This field cannot be left blank'
+    )
     parser.add_argument('username',
         type=str,
         required=True,
@@ -14,9 +24,14 @@ class UserRegister(Resource):
         required=True,
         help='This field cannot be left blank'
     )
+    parser.add_argument('profile',
+        type=str,
+        required=True,
+        help='This field cannot be left blank'
+    )
 
     def post(self):
-        data = UserLogin.parser.parse_args()
+        data = UserRegister.parser.parse_args()
 
         if UserModel.find_by_username(data['username']):
             return {'message': 'This user already exists.'}, 400
